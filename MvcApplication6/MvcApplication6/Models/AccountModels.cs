@@ -86,6 +86,12 @@ namespace MvcApplication6.Models
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+
+        [Display(Name = "Email address")]
+        [Required(ErrorMessage = "The email address is required")]
+        [EmailAddress(ErrorMessage = "Invalid Email Address")]
+        //[DataType(DataType.EmailAddress)]
+        public string Email { get; set; }
     }
 
     public class ExternalLogin
