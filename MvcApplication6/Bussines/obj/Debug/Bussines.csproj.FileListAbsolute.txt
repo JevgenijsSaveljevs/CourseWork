@@ -1,0 +1,15 @@
+C:\Users\Eugene\Documents\GitHub\CourseWork\MvcApplication6\Bussines\bin\Debug\Bussines.dll
+C:\Users\Eugene\Documents\GitHub\CourseWork\MvcApplication6\Bussines\bin\Debug\Bussines.pdb
+C:\Users\Eugene\Documents\GitHub\CourseWork\MvcApplication6\Bussines\bin\Debug\Data.dll
+C:\Users\Eugene\Documents\GitHub\CourseWork\MvcApplication6\Bussines\bin\Debug\FluentNHibernate.dll
+C:\Users\Eugene\Documents\GitHub\CourseWork\MvcApplication6\Bussines\bin\Debug\Iesi.Collections.dll
+C:\Users\Eugene\Documents\GitHub\CourseWork\MvcApplication6\Bussines\bin\Debug\NHibernate.dll
+C:\Users\Eugene\Documents\GitHub\CourseWork\MvcApplication6\Bussines\bin\Debug\Data.pdb
+C:\Users\Eugene\Documents\GitHub\CourseWork\MvcApplication6\Bussines\bin\Debug\FluentNHibernate.pdb
+C:\Users\Eugene\Documents\GitHub\CourseWork\MvcApplication6\Bussines\bin\Debug\FluentNHibernate.xml
+C:\Users\Eugene\Documents\GitHub\CourseWork\MvcApplication6\Bussines\bin\Debug\Iesi.Collections.xml
+C:\Users\Eugene\Documents\GitHub\CourseWork\MvcApplication6\Bussines\bin\Debug\NHibernate.xml
+C:\Users\Eugene\Documents\GitHub\CourseWork\MvcApplication6\Bussines\obj\Debug\Bussines.csprojResolveAssemblyReference.cache
+C:\Users\Eugene\Documents\GitHub\CourseWork\MvcApplication6\Bussines\obj\Debug\Bussines.dll
+C:\Users\Eugene\Documents\GitHub\CourseWork\MvcApplication6\Bussines\obj\Debug\Bussines.pdb
+C:\Users\Eugene\Documents\GitHub\CourseWork\MvcApplication6\Bussines\bin\Debug\Bussines.dll.config

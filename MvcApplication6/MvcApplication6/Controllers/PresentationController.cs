@@ -1,5 +1,7 @@
 ﻿using Aspose.Slides;
 using Aspose.Slides.Export;
+using Bussines;
+using Data;
 using MvcApplication6.Filters;
 using MvcApplication6.Models;
 using System;
@@ -9,9 +11,13 @@ using System.Linq;
 using System.Threading;
 using System.Web;
 using System.Web.Mvc;
+using HtmlAgilityPack;
+using Fizzler.Systems.HtmlAgilityPack;
+using WebMatrix.WebData;
 
 namespace MvcApplication6.Controllers
 {
+    [InitializeSimpleMembership]
     public class PresentationController : Controller
     {
 
@@ -44,6 +50,16 @@ namespace MvcApplication6.Controllers
             }
 
 
+        }
+
+        public IEnumerable<Customer> GetCustomers()
+        {
+             using(var ent = new Entities<Customer>())
+            {
+                var result = ent.GetCustomers();
+                return result.ToList();
+            }
+             
         }
 
         [PptExceptionHandler]
@@ -101,7 +117,7 @@ namespace MvcApplication6.Controllers
         Thread thread;
         [HandleError]
         [HandleError()]
-        private void generatePPT(Stream fileStream)
+        private  void generatePPT(Stream fileStream)
         {
             // The path to the documents directory.
           //  string dataDir = Path.GetFullPath("ss.test.pptx");
@@ -109,20 +125,89 @@ namespace MvcApplication6.Controllers
             try
             {
                 //Instantiate a Presentation object that represents a presentation file
-                using (Presentation pres = new Presentation(fileStream))
+                using (Aspose.Slides.Presentation pres = new Aspose.Slides.Presentation(fileStream))
                 {
-
                     HtmlOptions htmlOpt = new HtmlOptions();
                     htmlOpt.HtmlFormatter = HtmlFormatter.CreateDocumentFormatter("custom.css", false);
 
-                    var path = Directory.GetCurrentDirectory().ToString() + @"\doomo.html";
+                    var path = @"C:\\CourseWork\\doomo.html";
                     //Saving the presentation to HTML
-                    pres.Save(Directory.GetCurrentDirectory().ToString() + @"\doomo.html", Aspose.Slides.Export.SaveFormat.Html, htmlOpt);
+                    pres.Save(path, Aspose.Slides.Export.SaveFormat.Html, htmlOpt); 
 
-                    
+                    using(StreamReader sr = new StreamReader(path))
+                    {
+                        //String line = sr.ReadToEnd();//await sr.ReadToEndAsync();
+                        //var txt = line;
+                        
+                    }
 
-                }
+                    var html = new HtmlDocument();
+                    html.Load(path);
 
+                    var document = html.DocumentNode;
+                    var SVGs = document.Descendants("svg");
+
+                    Data.Presentation newPrez = new Data.Presentation();
+                    newPrez.Created = DateTime.UtcNow;
+                    var usr = User.Identity.Name;
+                    newPrez.Owner = (int)WebSecurity.GetUserId(User.Identity.Name);
+                    //UserProfile usr = int mu1 = 
+                    //newPrez.Pages = new Data.Slide();
+
+                    List<Data.Slide> slides = new List<Data.Slide>();
+
+                    int counter = 0;
+                    foreach (var item in SVGs)
+                    {
+                        var lastNode = item.LastChild;
+                        var decendatds = item.Descendants();
+                        var ggg = item.ChildNodes["g"];
+                        var ttt = ggg.ChildNodes.Where(x => x.Name == "text");
+
+                        var nodesToDel = item.ChildNodes["g"].ChildNodes.Where(x => x.Name == "text").ToList();
+
+                        foreach (var node in nodesToDel)
+                        {
+                            item.ChildNodes["g"].RemoveChild(node);
+                        }
+
+
+                        slides.Add(new Data.Slide { Presentation = newPrez, SlideNo = counter, Text = item.OuterHtml });
+                        
+                        //string fileName = "right" + counter +".txt";
+                        //FileStream fs = null;
+                        //try
+                        //{
+                        //    fs = new FileStream(@"C:\\CourseWork\\"+fileName, FileMode.CreateNew);
+                        //    using (StreamWriter writer = new StreamWriter(fs))
+                        //    {
+                        //        writer.Write(item.OuterHtml);
+                        //    }
+                        //}
+                        //finally
+                        //{
+                        //    if (fs != null)
+                        //        fs.Dispose();
+                        //}
+                        newPrez.Pages = slides.ToList();
+
+                       
+                        counter++;
+                    }
+
+                    //var dbprez = newPrez;
+                    //using (var ent = new Repository<Data.Presentation>())
+                    //{
+                    //    ent.CreatePresentation(newPrez);
+                    //}
+                    using (var ent = new Entities<Data.Presentation>())
+                    {
+                      //  ent.Add(newPrez);
+                        ent.CreatePresentation(newPrez);
+                    }
+
+               }        
+      
                 
 
             }

@@ -3,6 +3,10 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MvcApplication6", "MvcApplication6\MvcApplication6.csproj", "{C7486CE9-87DB-40D7-AF9D-AF0CB503DCAC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bussines", "Bussines\Bussines.csproj", "{B2EA7BB1-CC22-4D35-A10F-92318115CFFD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Data", "Data\Data.csproj", "{690EFA60-DAE8-4BF3-B88F-CB62ABD1D20E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,6 +17,14 @@ Global
 		{C7486CE9-87DB-40D7-AF9D-AF0CB503DCAC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C7486CE9-87DB-40D7-AF9D-AF0CB503DCAC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C7486CE9-87DB-40D7-AF9D-AF0CB503DCAC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B2EA7BB1-CC22-4D35-A10F-92318115CFFD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B2EA7BB1-CC22-4D35-A10F-92318115CFFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B2EA7BB1-CC22-4D35-A10F-92318115CFFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B2EA7BB1-CC22-4D35-A10F-92318115CFFD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{690EFA60-DAE8-4BF3-B88F-CB62ABD1D20E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{690EFA60-DAE8-4BF3-B88F-CB62ABD1D20E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{690EFA60-DAE8-4BF3-B88F-CB62ABD1D20E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{690EFA60-DAE8-4BF3-B88F-CB62ABD1D20E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
