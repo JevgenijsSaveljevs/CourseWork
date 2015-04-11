@@ -1,4 +1,7 @@
-﻿using System;
+﻿using AutoMapper;
+using Data;
+using MvcApplication6.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -23,6 +26,12 @@ namespace MvcApplication6
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             AuthConfig.RegisterAuth();
+
+
+            Mapper.CreateMap<Presentation, PresentationModel>();
+            Mapper.CreateMap<Slide, SlideModel>()
+                .ForMember( x => x.PresentationId, o => o.Ignore())
+                .ForMember( x => x.PresentationId, o=> o.MapFrom(z => z.Presentation.Id) );
         }
     }
 }

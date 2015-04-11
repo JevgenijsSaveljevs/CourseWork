@@ -34,7 +34,8 @@ namespace Bussines
 
         public bool Add(T entity)
         {
-            Session.Save(entity);
+            //Session.SaveOrUpdate(entity);
+           Session.Save(entity);
             return true;
         }
 

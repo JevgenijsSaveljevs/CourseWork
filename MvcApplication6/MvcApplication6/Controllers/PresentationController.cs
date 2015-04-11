@@ -157,12 +157,15 @@ namespace MvcApplication6.Controllers
                     List<Data.Slide> slides = new List<Data.Slide>();
 
                     int counter = 0;
+                    HtmlNode bckgrnd = HtmlNode.CreateNode("");
                     foreach (var item in SVGs)
                     {
+                        item.Attributes.Remove("width");
+                        item.Attributes.Remove("height");
                         var lastNode = item.LastChild;
-                        var decendatds = item.Descendants();
-                        var ggg = item.ChildNodes["g"];
-                        var ttt = ggg.ChildNodes.Where(x => x.Name == "text");
+                        //var decendatds = item.Descendants();
+                        //var ggg = item.ChildNodes["g"];
+                        //var ttt = ggg.ChildNodes.Where(x => x.Name == "text");
 
                         var nodesToDel = item.ChildNodes["g"].ChildNodes.Where(x => x.Name == "text").ToList();
 
@@ -170,6 +173,12 @@ namespace MvcApplication6.Controllers
                         {
                             item.ChildNodes["g"].RemoveChild(node);
                         }
+
+                        if (counter == 0)
+                            bckgrnd = item.ChildNodes["defs"];
+                        else
+                            item.ChildNodes.Insert(1, bckgrnd);
+                        //item.ChildNodes.Insert(0,
 
 
                         slides.Add(new Data.Slide { Presentation = newPrez, SlideNo = counter, Text = item.OuterHtml });

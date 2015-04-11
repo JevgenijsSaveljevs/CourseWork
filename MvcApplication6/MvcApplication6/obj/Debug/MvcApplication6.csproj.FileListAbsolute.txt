@@ -116,3 +116,8 @@ C:\Users\Eugene\Documents\GitHub\CourseWork\MvcApplication6\MvcApplication6\bin\
 C:\Users\Eugene\Documents\GitHub\CourseWork\MvcApplication6\MvcApplication6\bin\Fizzler.Systems.HtmlAgilityPack.xml
 C:\Users\Eugene\Documents\GitHub\CourseWork\MvcApplication6\MvcApplication6\bin\HtmlAgilityPack.pdb
 C:\Users\Eugene\Documents\GitHub\CourseWork\MvcApplication6\MvcApplication6\bin\HtmlAgilityPack.xml
+C:\Users\Eugene\Documents\GitHub\CourseWork\MvcApplication6\MvcApplication6\bin\AutoMapper.Net4.dll
+C:\Users\Eugene\Documents\GitHub\CourseWork\MvcApplication6\MvcApplication6\bin\AutoMapper.dll
+C:\Users\Eugene\Documents\GitHub\CourseWork\MvcApplication6\MvcApplication6\bin\AutoMapper.pdb
+C:\Users\Eugene\Documents\GitHub\CourseWork\MvcApplication6\MvcApplication6\bin\AutoMapper.xml
+C:\Users\Eugene\Documents\GitHub\CourseWork\MvcApplication6\MvcApplication6\bin\AutoMapper.Net4.pdb

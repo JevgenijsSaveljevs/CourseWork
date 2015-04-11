@@ -13,3 +13,8 @@ C:\Users\Eugene\Documents\GitHub\CourseWork\MvcApplication6\Bussines\obj\Debug\B
 C:\Users\Eugene\Documents\GitHub\CourseWork\MvcApplication6\Bussines\obj\Debug\Bussines.dll
 C:\Users\Eugene\Documents\GitHub\CourseWork\MvcApplication6\Bussines\obj\Debug\Bussines.pdb
 C:\Users\Eugene\Documents\GitHub\CourseWork\MvcApplication6\Bussines\bin\Debug\Bussines.dll.config
+C:\Users\Eugene\Documents\GitHub\CourseWork\MvcApplication6\Bussines\bin\Debug\AutoMapper.Net4.dll
+C:\Users\Eugene\Documents\GitHub\CourseWork\MvcApplication6\Bussines\bin\Debug\AutoMapper.dll
+C:\Users\Eugene\Documents\GitHub\CourseWork\MvcApplication6\Bussines\bin\Debug\AutoMapper.pdb
+C:\Users\Eugene\Documents\GitHub\CourseWork\MvcApplication6\Bussines\bin\Debug\AutoMapper.xml
+C:\Users\Eugene\Documents\GitHub\CourseWork\MvcApplication6\Bussines\bin\Debug\AutoMapper.Net4.pdb

@@ -1,5 +1,9 @@
 ﻿using Data;
 using FluentNHibernate.Mapping;
+using NHibernate;
+using NHibernate.Engine;
+using NHibernate.Id;
+using NHibernate.Type;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,8 +28,9 @@ namespace Bussines.Mappings
         {
             public PresentationMap()
             {
-                
-                Id(x => x.Id).Not.Nullable().GeneratedBy.Identity();
+                Table("Presentation1");
+                Id(x => x.Id).GeneratedBy.Increment();
+              //  Id(x => x.Id).GeneratedBy.Assigned();
                 Map(x => x.Created);
                 Map(x => x.Owner).Not.Nullable();
                 HasMany(x => x.Pages).KeyColumn("PptId").Not.LazyLoad().Cascade.DeleteOrphan();
@@ -34,14 +39,28 @@ namespace Bussines.Mappings
             }
         }
 
+        public class StringTableHiLoGenerator : TableHiLoGenerator
+        {
+            public override object Generate(ISessionImplementor session, object obj)
+            {
+                return base.Generate(session, obj).ToString();
+            }
+
+            public override void Configure(IType type, System.Collections.Generic.IDictionary<string, string> parms, NHibernate.Dialect.Dialect dialect)
+            {
+                base.Configure(NHibernateUtil.Int32, parms, dialect);
+            }
+        }
+
 
         public class SlideMap : ClassMap<Slide>
         {
             public SlideMap()
             {
-                Table("PptSlide");
-
-                Id(x => x.Id).Not.Nullable().GeneratedBy.Identity();
+                Table("PptSlide1");
+                Id(x => x.Id).GeneratedBy.Increment();
+              //  Id(x => x.Id).GeneratedBy.Assigned();//.GeneratedBy.Identity();
+               // HasOne(x => x.Presentation).Constrained().ForeignKey(;
                 References(x => x.Presentation, "PptId").LazyLoad(Laziness.False).Not.Nullable();
                 //Map(x => x.Presentation.Id, "PptId").Not.Nullable();
                 Map(x => x.SlideNo).Not.Nullable();

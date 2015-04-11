@@ -42,6 +42,12 @@
     <Reference Include="Aspose.Slides">
       <HintPath>..\packages\Aspose.Slides.NET.15.2.0\lib\net4.0-client\Aspose.Slides.dll</HintPath>
     </Reference>
+    <Reference Include="AutoMapper">
+      <HintPath>..\packages\AutoMapper.3.3.1\lib\net40\AutoMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="AutoMapper.Net4">
+      <HintPath>..\packages\AutoMapper.3.3.1\lib\net40\AutoMapper.Net4.dll</HintPath>
+    </Reference>
     <Reference Include="Fizzler">
       <HintPath>..\packages\Fizzler.1.0.0\lib\net35\Fizzler.dll</HintPath>
     </Reference>
@@ -193,6 +199,8 @@
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Filters\PptException.cs" />
     <Compile Include="Filters\PptExceptionHandler.cs" />
+    <Compile Include="Models\PresentationModel.cs" />
+    <Compile Include="Models\SlideModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -280,6 +288,8 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\knockout-2.1.0.debug.js" />
     <Content Include="Scripts\knockout-2.1.0.js" />
+    <Content Include="Scripts\knockout.mapping-latest.debug.js" />
+    <Content Include="Scripts\knockout.mapping-latest.js" />
     <Content Include="Scripts\modernizr-2.5.3.js" />
     <Content Include="Scripts\npm.js" />
     <Content Include="Web.config">
@@ -373,6 +383,7 @@
       </FlavorProperties>
     </VisualStudio>
   </ProjectExtensions>
+  <Import Project="..\packages\AutoMapper.3.3.1\tools\AutoMapper.targets" Condition="Exists('..\packages\AutoMapper.3.3.1\tools\AutoMapper.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

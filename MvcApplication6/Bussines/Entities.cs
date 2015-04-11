@@ -38,33 +38,36 @@ namespace Bussines
             db.Add(slide);
         }
 
-        public IEnumerable<Presentation> GetAllPrezs()
+        public IQueryable<Presentation> GetAllPrezs()
         {
             var db = new Entities<Presentation>();
-            return db.GetAll().ToList();
+            return db.GetAll();
         }
 
         public Presentation CreatePresentation(Presentation ppt)
         {
+            var slides = ppt.Pages;
             using (var Db = new Entities<Presentation>())
             {
-                var slides = ppt.Pages;
+              
                 ppt.Pages = null;
                 Db.Add(ppt);
 
                 var DBPRez = Db.GetAll().Where(x => x.Created == ppt.Created && x.Owner == ppt.Owner).FirstOrDefault();
                 Db.Flush();
 
-                foreach (var item in slides)
+            
+            }
+
+            foreach (var item in slides)
+            {
+                using (var db = new Entities<Slide>())
                 {
-                    using(var db = new Entities<Slide>())
-                    {
-                        db.Add(item);
-                    }// item.Presentation = DBPRez;
-                    //var ll = item.Text.Length;
-                   
-                  //  CreateSlide(item);
-                }
+                    db.Add(item);
+                }// item.Presentation = DBPRez;
+                //var ll = item.Text.Length;
+
+                //  CreateSlide(item);
             }
 
             //using (var Db = new Repository<Presentation>())
