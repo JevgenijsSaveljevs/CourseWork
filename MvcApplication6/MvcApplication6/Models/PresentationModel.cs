@@ -10,6 +10,10 @@ namespace MvcApplication6.Models
         public int Id { get; set; }
         public int Owner { get; set; }
         public DateTime Created { get; set; }
+        public bool isActive
+        {
+         get; set;          
+        }
         public IEnumerable<SlideModel> Pages { get; set; }
     }
 }

@@ -338,6 +338,8 @@
     <Content Include="Views\Shared\_LoginRedirect.cshtml" />
     <Content Include="Views\Shared\_UploadPpt.cshtml" />
     <Content Include="Views\Home\iFrame.cshtml" />
+    <Content Include="Views\Presentation\Modal.cshtml" />
+    <Content Include="Views\Presentation\Broadcast.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

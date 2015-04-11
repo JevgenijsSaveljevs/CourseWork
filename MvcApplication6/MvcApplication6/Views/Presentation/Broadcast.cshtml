@@ -1,0 +1,111 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+<script src="~/Scripts/jquery-2.1.3.min.js"></script>
+<script src="~/Scripts/knockout-2.1.0.debug.js"></script>
+<script src="~/Scripts/knockout.mapping-latest.debug.js"></script>
+@section featured {
+
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="box col-md-3">
+                <table class="table">
+                    <tr>
+                        <td></td>
+                        <td>
+                            <label data-bind="text: $root.Current"></label>
+                        </td>
+                        <td>
+                            <label data-bind="text: $root.Block"></label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-2">
+                            <a href="#" id="PrevBtn" data-bind="click: $root.Prev" class="btn btn-block btn-lg btn-success"><span class="glyphicon glyphicon-chevron-left"></span>Previous</a>
+                        </td>                
+                        <td class="col-md-2">
+                            <a href="#" id="NextBtn" data-bind="click: $root.Next" class="btn btn-block btn-lg btn-danger">Next <span class="glyphicon glyphicon-chevron-right"></span></a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-6"><a data-bind="click: $root.alert" href="#" class="btn btn-block btn-lg btn-primary"><span class="glyphicon glyphicon-stop"></span>Stop</a></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-md-9">
+                <div id="montior" class="jumbotron" data-bind="html: $root.text">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+        </div>
+
+    </div>
+
+
+}
+
+<script type="text/javascript">
+    var viewModel = function () {
+        self = this;
+        self.text = ko.observable();
+        self.Limit = ko.observable(@ViewBag.SlideCount);
+        self.Current = ko.observable(0);
+        self.refresh = function () {
+            $.getJSON("@Url.HttpRouteUrl("DefaultApi", new { controller = "PresentationApi", action = "GetBRSlide" })" + "?id=" + @ViewBag.id, function (allData) {
+                self.text(allData);
+            });
+
+            $.getJSON("@Url.HttpRouteUrl("DefaultApi", new { controller = "PresentationApi", action = "CurBRSlide" })" + "?id=" + @ViewBag.id, function (allData) {
+                self.Current(allData)
+            });
+        };
+        self.refresh();
+        
+        self.BlockNext = ko.computed(function () {
+            if (parseInt(self.Current()) + 1 >= parseInt(self.Limit())) {
+                $('#NextBtn').attr("disabled", "disabled");
+                return true;
+            }
+            else {
+                $('#NextBtn').removeAttr('disabled');
+                return false;
+            }
+        });
+
+        self.Block = ko.computed(function () {
+            return (parseInt(self.Limit()));
+        });
+
+        self.BlockPrev = ko.computed(function () {
+            if (parseInt(self.Current()) <= 0) {
+                $('#PrevBtn').attr("disabled", "disabled");
+                console.log("SHOULD BLOCK!!!!!!");
+                return false;
+            }
+            else {
+                $('#PrevBtn').removeAttr('disabled');
+                return true;
+            }
+        });
+        self.Next = function () {
+            $.getJSON("@Url.HttpRouteUrl("DefaultApi", new { controller = "PresentationApi", action = "IncBRSlide" })" + "?id=" + @ViewBag.id, function (allData) {
+                self.refresh();
+            });
+        };
+
+        self.Prev = function () {
+            $.getJSON("@Url.HttpRouteUrl("DefaultApi", new { controller = "PresentationApi", action = "DecBRSlide" })" + "?id="+ @ViewBag.id, function (allData) {
+                self.refresh();
+            });
+        };
+
+
+
+        self.alert = function () {
+            alert(@ViewBag.SlideCount);
+        };
+    };
+    ko.applyBindings(new viewModel());
+</script>

@@ -114,6 +114,30 @@ namespace MvcApplication6.Controllers
 
         }
 
+        public ActionResult Modal(long pptId)
+        {
+            ViewBag.Id = pptId;
+            return PartialView();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id">Presenation Id</param>
+        /// <returns></returns>
+        public ActionResult Broadcast(int id)
+        {
+            ViewBag.Id = id;
+            using (var ent = new Entities<Broadcast>())
+            {
+                //  ent.Add(newPrez);.
+                var result = ent.TotalSlideCount(id);
+                ViewBag.SlideCount = ent.TotalSlideCount(id);
+            }
+            return View();
+        }
+
+
         Thread thread;
         [HandleError]
         [HandleError()]

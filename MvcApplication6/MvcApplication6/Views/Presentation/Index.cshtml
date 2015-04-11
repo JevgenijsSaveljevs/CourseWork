@@ -5,32 +5,36 @@
 <script src="~/Scripts/knockout-2.1.0.debug.js"></script>
 <script src="~/Scripts/knockout.mapping-latest.debug.js"></script>
 @section featured {
-     <div class="jumbotron">
+    <div class="jumbotron">
         <div class="container">
-<h2>Presentations</h2>
+            <h2>Presentations</h2>
             <table class="table">
-                <thead >
-                    <tr >
-                        <th >Owner</th>
-                        <th  >Created</th>
-                        <th > Preview</th>
+                <thead>
+                    <tr>
+                        <th>Owner</th>
+                        <th>Created</th>
+                        <th>Preview</th>
                     </tr>
                 </thead>
                 <tbody data-bind="foreach: Present">
-                    <tr > 
-                        <td  data-bind="text: $data.Created"></td>
+                    <tr>
+                        <td data-bind="text: $data.Created"></td>
                         <td data-bind="text: $data.Owner"></td>
-                        <td  data-bind="html: $data.demo">a</td>
+                        <td data-bind="html: $data.demo">a</td>
+                        <td>
+                            <button class="btn btn-large btn-success" data-bind="click: $root.openModal, attr: { id: $data.Id }, disable: $data.isActive">Start SlideShow</button>
+                            <button class="btn btn-large btn-danger" data-bind="click: $root.DeActivate, attr: { id: $data.Id }, enable: $data.isActive">Stop SlideShow</button>
+                        </td>
                     </tr>
                 </tbody>
             </table>
-             
-            </div>
-        
 
-         </div>
+        </div>
 
-    }
+
+    </div>
+
+}
 <!-- Modal -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -40,7 +44,7 @@
                 <h4 class="modal-title" id="myModalLabel">Modal title</h4>
             </div>
             <div class="modal-body">
-               @Html.Partial("_UploadPpt")
+                @Html.Partial("_UploadPpt")
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -50,10 +54,34 @@
     </div>
 </div>
 
+<div class="modal fade" id="myModalPpt" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabelPPt">Modal title</h4>
+            </div>
+            <div id="Modalcontent" class="modal-body">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button id="upp1" type="button" data-bind="click: $root.Activate"class="btn btn-primary">Activate</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- Button trigger modal -->
 <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
     Launch demo modal
 </button>
+
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-bind="click: $root.openModal">
+    Launch 2nd demo modal
+</button>
+
+
 <button class="btn btn-primary btn-lg" data-bind="click: $root.refresh">tratata</button>
 <script src="~/Scripts/jquery-2.1.3.min.js"></script>
 <script type="text/javascript">
@@ -62,36 +90,64 @@
         self = this;
         self.Present = ko.observable();
 
-        self.alert = function () {
-            alert("asd");
+        self.openModal = function (sender) {
+            // console.dir(sender.Id());
+            console.log("@Url.HttpRouteUrl("Default", new { controller = "Presentation", action = "Modal" })");
+            $.ajax({
+                url: "@Url.HttpRouteUrl("Default", new { controller = "Presentation", action = "Modal" })" + "&pptId="+sender.Id(),
+                type: "GET",
+                success: function (result) {
+                    if (result) {
+                        $('#Modalcontent').html(result);
+                        $('#upp1').attr('alt', sender.Id());
+                      //  console.log($('#Modalcontent').html());
+                        $('#myModalPpt').modal('show');
+                    }
+                }
+            });
 
         }
 
-        self.refresh = function () {           
-          $.getJSON("@Url.HttpRouteUrl("DefaultApi", new { controller = "PresentationApi", action = "GetPrez"})", function (allData) {
-              var mappedTasks = ko.mapping.fromJS(allData); //.map(allData, function (item) { return new Task(item) });
-              $.each(mappedTasks(), function (index, value) {
-                  var t = value;
-                  var z = index;
-                  
-                 // var pages = value().Pages();
-                  var pages1 = value.Pages();
-                  if (pages1[0] == null)
-                      value.demo = ko.observable("No Preview Available");
-                  else {
-                      var id = 0;
-                      var vall = $.map(pages1, function (data) {
-                         
-                          if (data.SlideNo() === 0) return id;
-                          else id++;
-                      });
-                      //console.log(id);
-                      value.demo = ko.observable(pages1[vall].Text())
-                  }
-                 
-              });
-            
-              self.Present(mappedTasks);
+        self.DeActivate = function (sender) {
+           // console.dir(sender.Id());
+            $.getJSON("@Url.HttpRouteUrl("DefaultApi", new { controller = "PresentationApi", action = "deactivatePpt" })" + "?id=" + sender.Id(), function (allData) {
+                console.log(allData);
+            });
+        };
+
+        self.Activate = function (sender) {
+         
+            $.getJSON("@Url.HttpRouteUrl("DefaultApi", new { controller = "PresentationApi", action = "ActivatePpt" })" + "?id=" + $('#upp1').attr('alt'), function (allData) {
+                $.getJSON("@Url.HttpRouteUrl("DefaultApi", new { controller = "PresentationApi", action = "CreateBroadcast" })" + "?PrezId=" + allData, function (allData1) {
+                });
+            });
+        };
+
+        self.refresh = function () {
+            $.getJSON("@Url.HttpRouteUrl("DefaultApi", new { controller = "PresentationApi", action = "GetPrez" })", function (allData) {
+                var mappedTasks = ko.mapping.fromJS(allData); //.map(allData, function (item) { return new Task(item) });
+                $.each(mappedTasks(), function (index, value) {
+                    var t = value;
+                    var z = index;
+
+                    // var pages = value().Pages();
+                    var pages1 = value.Pages();
+                    if (pages1[0] == null)
+                        value.demo = ko.observable("No Preview Available");
+                    else {
+                        var id = 0;
+                        var vall = $.map(pages1, function (data) {
+
+                            if (data.SlideNo() === 0) return id;
+                            else id++;
+                        });
+                        //console.log(id);
+                        value.demo = ko.observable(pages1[vall].Text())
+                    }
+
+                });
+
+                self.Present(mappedTasks);
             });
         }
     };

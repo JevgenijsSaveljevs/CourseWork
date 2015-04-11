@@ -126,6 +126,7 @@ namespace Bussines
 
         public void Dispose()
         {
+
             Session.Transaction.Commit();
             Session.Close();
         }

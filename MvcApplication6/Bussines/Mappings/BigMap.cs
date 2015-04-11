@@ -30,10 +30,11 @@ namespace Bussines.Mappings
             {
                 Table("Presentation1");
                 Id(x => x.Id).GeneratedBy.Increment();
-              //  Id(x => x.Id).GeneratedBy.Assigned();
+                //  Id(x => x.Id).GeneratedBy.Assigned();
                 Map(x => x.Created);
                 Map(x => x.Owner).Not.Nullable();
-                HasMany(x => x.Pages).KeyColumn("PptId").Not.LazyLoad().Cascade.DeleteOrphan();
+                Map(x => x.isActive);
+                HasMany(x => x.Pages).KeyColumn("PptId").Not.LazyLoad().Cascade.None();
                 //References(x => x.Pages).LazyLoad(Laziness.False).Cascade.DeleteOrphans();
 
             }
@@ -59,12 +60,24 @@ namespace Bussines.Mappings
             {
                 Table("PptSlide1");
                 Id(x => x.Id).GeneratedBy.Increment();
-              //  Id(x => x.Id).GeneratedBy.Assigned();//.GeneratedBy.Identity();
-               // HasOne(x => x.Presentation).Constrained().ForeignKey(;
+                //  Id(x => x.Id).GeneratedBy.Assigned();//.GeneratedBy.Identity();
+                // HasOne(x => x.Presentation).Constrained().ForeignKey(;
                 References(x => x.Presentation, "PptId").LazyLoad(Laziness.False).Not.Nullable();
                 //Map(x => x.Presentation.Id, "PptId").Not.Nullable();
                 Map(x => x.SlideNo).Not.Nullable();
                 Map(x => x.Text).Not.Nullable().CustomSqlType("nvarchar(max)").Length(200000);
+            }
+        }
+
+        public class BroadCastMap : ClassMap<Broadcast>
+        {
+            public BroadCastMap()
+            {
+                Id(x => x.Id).GeneratedBy.Increment();
+                Map(x => x.PptId);
+                Map(x => x.SlideId);
+                Map(x => x.Text).CustomSqlType("nvarchar(max)").Length(200000);
+                //  Map(x => x.Slide.Presentation.Id).Column("PptId");
             }
         }
 

@@ -19,9 +19,112 @@ namespace MvcApplication6.Controllers
         {
             using (var ent = new Entities<Presentation>())
             {
-               var result = ent.GetAllPrezs().Select( x => Mapper.Map<Presentation, PresentationModel>(x)).ToList();
-               return result;
+                var result = ent.GetAllPrezs().Select(x => Mapper.Map<Presentation, PresentationModel>(x)).ToList();
+                return result;
             }
         }
+
+        [HttpGet]
+        public string ActivatePpt(long id)
+        {
+            try
+            {
+                using (var ent = new Entities<Presentation>())
+                {
+                    ent.Activate(id);
+                    return id.ToString();
+                }
+            }
+            catch (Exception ex) { return "err = " + ex.Message; }
+        }
+
+        [HttpGet]
+        public string deactivatePpt(long id)
+        {
+            try
+            {
+                using (var ent = new Entities<Presentation>())
+                {
+                    ent.Dectivate(id);
+                    return "done";
+                }
+            }
+            catch (Exception ex) { return "err = " + ex.Message; }
+        }
+
+        [HttpGet]
+        public string GetBRSlide(int id)
+        {
+            try
+            {
+                using (var ent = new Entities<Broadcast>())
+                {
+                    var result = ent.GetBR(id);
+                    return result.Text;
+                }
+            }
+            catch (Exception ex) { return "err = " + ex.Message; }
+        }
+
+        [HttpGet]
+        public string IncBRSlide(int id)
+        {
+            try
+            {
+                using (var ent = new Entities<Broadcast>())
+                {
+                    ent.Inc(id);
+                    return "done";
+                }
+            }
+            catch (Exception ex) { return "err = " + ex.Message; }
+        }
+
+
+        [HttpGet]
+        public string DecBRSlide(int id)
+        {
+            try
+            {
+                using (var ent = new Entities<Broadcast>())
+                {
+                    ent.Dec(id);
+                    return "done";
+                }
+            }
+            catch (Exception ex) { return "err = " + ex.Message; }
+        }
+
+        [HttpGet]
+        public string CurBRSlide(int id)
+        {
+            try
+            {
+                using (var ent = new Entities<Broadcast>())
+                {
+                    var rez = ent.CurrentSlide(id);
+                    return rez.ToString();
+                }
+            }
+            catch (Exception ex) { return "err = " + ex.Message; }
+        }
+
+        [HttpGet]
+        public string CreateBroadcast(int PrezId)
+        {
+            try
+            {
+                using (var ent = new Entities<Broadcast>())
+                {
+                    ent.CreateBroadCast(PrezId);
+                    return "done";
+                }
+            }
+            catch (Exception ex) { return "err = " + ex.Message; }
+        }
+
+
+
+
     }
 }

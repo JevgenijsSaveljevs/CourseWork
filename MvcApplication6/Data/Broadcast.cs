@@ -4,15 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-
 namespace Data
 {
-    public class Slide
+    public class Broadcast
     {
         public virtual int Id { get; set; }
-      //  [StringLengthMax]
+        public virtual int SlideId { get; set; }
+        public virtual int PptId { get; set; }
         public virtual string Text { get; set; }
-        public virtual int SlideNo { get; set; }
-        public virtual Presentation Presentation { get; set; }
     }
 }

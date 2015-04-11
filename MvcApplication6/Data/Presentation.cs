@@ -11,6 +11,7 @@ namespace Data
         public virtual int Id { get; set; }
         public virtual int Owner { get; set; }
         public virtual DateTime Created { get; set; }
+        public virtual bool isActive { get; set; }
         public virtual IEnumerable<Slide> Pages { get; set; }
     }
 }
