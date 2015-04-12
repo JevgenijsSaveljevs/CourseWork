@@ -192,6 +192,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PresentationApiController.cs" />
     <Compile Include="Controllers\PresentationController.cs" />
+    <Compile Include="Controllers\SubscriptionController.cs" />
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -340,6 +341,7 @@
     <Content Include="Views\Home\iFrame.cshtml" />
     <Content Include="Views\Presentation\Modal.cshtml" />
     <Content Include="Views\Presentation\Broadcast.cshtml" />
+    <Content Include="Views\Subscription\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

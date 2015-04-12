@@ -61,6 +61,27 @@ namespace Bussines
 
         }
 
+
+        public IEnumerable<UserDB> GetUsers()
+        {
+            var db = new Entities<UserDB>();
+            return db.GetAll().ToList();     
+        }
+
+
+        public IEnumerable<UserDB> GetPagedUsers(long id,int portionSize, int Page)
+        {
+            var db = new Entities<UserDB>();
+            var ttl = db.GetAll().Count();
+
+            var skip = (Page - 1) * portionSize;
+            
+            return db.GetAll()
+                .Skip(skip)
+                .Take(portionSize)
+                .ToList();
+        }
+
         public void Dectivate(long id)
         {
             var db = new Entities<Presentation>();

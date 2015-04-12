@@ -23,6 +23,17 @@ namespace Bussines.Mappings
             }
         }
 
+        public partial class UserDBMap : ClassMap<UserDB>
+        {
+            public UserDBMap()
+            {
+                Table("UserProfile");
+                Id(x => x.Id).Column("UserId").GeneratedBy.Identity();
+                Map(x => x.UserName).Not.Nullable();
+                Map(x => x.Email).Not.Nullable();
+            }
+        }
+
 
         public class PresentationMap : ClassMap<Presentation>
         {

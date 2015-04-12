@@ -8,6 +8,7 @@
     <div class="jumbotron">
         <div class="container">
             <h2>Presentations</h2>
+            <a href="#" data-toggle="modal" data-target="#myModal" class="btn btn-primary btn-success"><span class="glyphicon glyphicon-folder-open"></span> Add New</a>
             <table class="table">
                 <thead>
                     <tr>
@@ -41,14 +42,14 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+                <h4 class="modal-title" id="myModalLabel">Add New</h4>
             </div>
             <div class="modal-body">
                 @Html.Partial("_UploadPpt")
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button id="upp" type="button" class="btn btn-primary">Save changes</button>
+                <button id="upp" type="button" class="btn btn-primary">Upload</button>
             </div>
         </div>
     </div>
@@ -59,7 +60,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabelPPt">Modal title</h4>
+                <h4 class="modal-title" id="myModalLabelPPt">Start Broadcast</h4>
             </div>
             <div id="Modalcontent" class="modal-body">
             </div>
@@ -75,6 +76,8 @@
 <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
     Launch demo modal
 </button>
+
+
 
 <!-- Button trigger modal -->
 <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-bind="click: $root.openModal">
@@ -111,7 +114,8 @@
         self.DeActivate = function (sender) {
            // console.dir(sender.Id());
             $.getJSON("@Url.HttpRouteUrl("DefaultApi", new { controller = "PresentationApi", action = "deactivatePpt" })" + "?id=" + sender.Id(), function (allData) {
-                console.log(allData);
+               // console.log(allData);
+                self.refresh();
             });
         };
 
@@ -119,6 +123,13 @@
          
             $.getJSON("@Url.HttpRouteUrl("DefaultApi", new { controller = "PresentationApi", action = "ActivatePpt" })" + "?id=" + $('#upp1').attr('alt'), function (allData) {
                 $.getJSON("@Url.HttpRouteUrl("DefaultApi", new { controller = "PresentationApi", action = "CreateBroadcast" })" + "?PrezId=" + allData, function (allData1) {
+                    if (allData1 === "done") {
+                    //    $('#myModalPpt').modal('empty');
+                        $('#myModalPpt').modal('hide');
+                        window.location.href = "@Url.HttpRouteUrl("Default", new { controller = "Presentation", action = "Broadcast" })" + "&id=" + $('#upp1').attr('alt');
+                    }
+                    
+
                 });
             });
         };
@@ -150,6 +161,8 @@
                 self.Present(mappedTasks);
             });
         }
+
+        self.refresh();
     };
 
     ko.applyBindings(new viewModel());

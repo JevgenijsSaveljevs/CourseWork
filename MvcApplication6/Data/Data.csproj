@@ -51,6 +51,7 @@
     <Compile Include="Presentation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Slide.cs" />
+    <Compile Include="User.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

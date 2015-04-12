@@ -91,6 +91,7 @@
         });
         self.Next = function () {
             $.getJSON("@Url.HttpRouteUrl("DefaultApi", new { controller = "PresentationApi", action = "IncBRSlide" })" + "?id=" + @ViewBag.id, function (allData) {
+
                 self.refresh();
             });
         };

@@ -39,6 +39,20 @@ namespace MvcApplication6.Controllers
         }
 
         [HttpGet]
+        public IEnumerable<UserDB> GetUsers()
+        {
+            try
+            {
+                using (var ent = new Entities<UserDB>())
+                {
+                    return ent.GetUsers();
+                    //return id.ToString();
+                }
+            }
+            catch (Exception ex) { throw ex; }
+        }
+
+        [HttpGet]
         public string deactivatePpt(long id)
         {
             try
