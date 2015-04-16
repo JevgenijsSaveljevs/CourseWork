@@ -14,7 +14,7 @@ using MvcApplication6.Models;
 namespace MvcApplication6.Controllers
 {
     [Authorize]
-    [InitializeSimpleMembership]
+   // [InitializeSimpleMembership]
     public class AccountController : Controller
     {
         //

@@ -48,9 +48,11 @@
     <Compile Include="Broadcast.cs" />
     <Compile Include="Class1.cs" />
     <Compile Include="Customer.cs" />
+    <Compile Include="Message.cs" />
     <Compile Include="Presentation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Slide.cs" />
+    <Compile Include="Subscription.cs" />
     <Compile Include="User.cs" />
   </ItemGroup>
   <ItemGroup>

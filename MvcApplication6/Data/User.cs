@@ -11,5 +11,6 @@ namespace Data
         public virtual int Id { get; set; }
         public virtual string UserName { get; set; }
         public virtual string Email { get; set; }
+        public virtual IList<Subscription> Subscibtions {get; set;}
     }
 }

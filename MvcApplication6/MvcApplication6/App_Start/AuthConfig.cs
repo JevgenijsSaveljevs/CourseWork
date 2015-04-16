@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Web.WebPages.OAuth;
 using MvcApplication6.Models;
+using WebMatrix.WebData;
 
 namespace MvcApplication6
 {
@@ -11,6 +12,8 @@ namespace MvcApplication6
     {
         public static void RegisterAuth()
         {
+
+            WebSecurity.InitializeDatabaseConnection("DefaultConnection", "UserProfile", "UserId", "UserName", autoCreateTables: true);
             // To let users of this site log in using their accounts from other sites such as Microsoft, Facebook, and Twitter,
             // you must update this site. For more information visit http://go.microsoft.com/fwlink/?LinkID=252166
 

@@ -103,7 +103,8 @@
                     if (result) {
                         $('#Modalcontent').html(result);
                         $('#upp1').attr('alt', sender.Id());
-                      //  console.log($('#Modalcontent').html());
+                        //  console.log($('#Modalcontent').html());
+
                         $('#myModalPpt').modal('show');
                     }
                 }
@@ -122,15 +123,38 @@
         self.Activate = function (sender) {
          
             $.getJSON("@Url.HttpRouteUrl("DefaultApi", new { controller = "PresentationApi", action = "ActivatePpt" })" + "?id=" + $('#upp1').attr('alt'), function (allData) {
+              
+                var txt = $('#pptMsg').val();
+                var obj = {};
+                obj.msg = {};
+                obj.msg.txt = txt;
+                obj.msg.PrezId = allData;
+                console.log("allData" + allData);
+
+                $.ajax({
+                    type: 'POST',
+                    contentType: 'application/json',
+                    url: "@Url.HttpRouteUrl("DefaultApi", new { controller = "PresentationApi", action = "CreateBroadcast" })",
+                    data: JSON.stringify({
+                        'txt': encodeURIComponent($('#pptMsg').val()),
+                        'PrezId': allData
+                    }),
+                        success: function () {
+                            $('#myModalPpt').modal('hide');
+                            window.location.href = "@Url.HttpRouteUrl("Default", new { controller = "Presentation", action = "Broadcast" })" + "&id=" + $('#upp1').attr('alt');               
+                        }
+                 });
+            @*   
                 $.getJSON("@Url.HttpRouteUrl("DefaultApi", new { controller = "PresentationApi", action = "CreateBroadcast" })" + "?PrezId=" + allData, function (allData1) {
                     if (allData1 === "done") {
-                    //    $('#myModalPpt').modal('empty');
+                        //    $('#myModalPpt').modal('empty');
+                       
                         $('#myModalPpt').modal('hide');
-                        window.location.href = "@Url.HttpRouteUrl("Default", new { controller = "Presentation", action = "Broadcast" })" + "&id=" + $('#upp1').attr('alt');
-                    }
+                       window.location.href = "@Url.HttpRouteUrl("Default", new { controller = "Presentation", action = "Broadcast" })" + "&id=" + $('#upp1').attr('alt');
+                    }*@
                     
 
-                });
+                //});
             });
         };
 

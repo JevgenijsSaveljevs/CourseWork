@@ -31,6 +31,7 @@ namespace Bussines.Mappings
                 Id(x => x.Id).Column("UserId").GeneratedBy.Identity();
                 Map(x => x.UserName).Not.Nullable();
                 Map(x => x.Email).Not.Nullable();
+                HasMany(x => x.Subscibtions).KeyColumn("UserId");
             }
         }
 
@@ -46,6 +47,20 @@ namespace Bussines.Mappings
                 Map(x => x.Owner).Not.Nullable();
                 Map(x => x.isActive);
                 HasMany(x => x.Pages).KeyColumn("PptId").Not.LazyLoad().Cascade.None();
+                //References(x => x.Pages).LazyLoad(Laziness.False).Cascade.DeleteOrphans();
+
+            }
+        }
+
+        public class SubscriptionMap : ClassMap<Subscription>
+        {
+            public SubscriptionMap()
+            {
+                Table("Subscription");
+                Id(x => x.Id).GeneratedBy.Increment();
+                //  Id(x => x.Id).GeneratedBy.Assigned();
+                Map(x => x.SubscribedTo).Not.Nullable();
+                Map(x => x.UserId).Not.Nullable();
                 //References(x => x.Pages).LazyLoad(Laziness.False).Cascade.DeleteOrphans();
 
             }

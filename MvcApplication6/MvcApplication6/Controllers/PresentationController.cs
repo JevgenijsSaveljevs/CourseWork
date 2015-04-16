@@ -17,7 +17,7 @@ using WebMatrix.WebData;
 
 namespace MvcApplication6.Controllers
 {
-    [InitializeSimpleMembership]
+    //[InitializeSimpleMembership]
     public class PresentationController : Controller
     {
 

@@ -24,6 +24,7 @@
                         <div class="form-group col-lg-12">
                             @Html.LabelFor(m => m.UserName)
                             @Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(x => x.UserName);
                         </div>
                         <div class="form-group col-lg-6">
                             @Html.LabelFor(m => m.Password)
@@ -78,4 +79,7 @@
 }
 @section Scripts {
   @*  @Scripts.Render("~/bundles/jqueryval")*@
+       <script src="~/Scripts/jquery-migrate-1.2.1.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
 }

@@ -89,8 +89,36 @@ namespace Bussines
 
             activate.isActive = false;
             db.Session.Transaction.Commit();
+        }
 
+        public void CreateSub(int userId, int subscribeTo)
+        {
+            var db = new Entities<Subscription>();
+            
+            if(db.GetAll().Where(x => x.UserId == userId && x.SubscribedTo == subscribeTo).Count() == 0)
+                db.Session.SaveOrUpdate(new Subscription
+                {
+                 UserId = userId,
+                 SubscribedTo = subscribeTo
+                }); 
+            db.Session.Transaction.Commit();
+        }
 
+        public void DeleteSub(int userId, int subscribeTo)
+        {
+            var db = new Entities<Subscription>();
+            var toDel = db.GetAll().Where(x => x.UserId == userId && x.SubscribedTo == subscribeTo).FirstOrDefault();
+            if (toDel != null)
+            {
+                db.Delete(toDel);
+                db.Session.Transaction.Commit();
+            }
+        }
+
+        public IEnumerable<Subscription> GetSubForUser(int userId)
+        {
+            var db = new Entities<Subscription>();
+            return db.GetAll().Where(x => x.UserId == userId).ToList();
         }
 
         public void Inc(long id)
