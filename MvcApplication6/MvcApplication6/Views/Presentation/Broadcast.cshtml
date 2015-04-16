@@ -1,52 +1,93 @@
 ﻿@{
     ViewBag.Title = "Index";
 }
-<script src="~/Scripts/jquery-2.1.3.min.js"></script>
-<script src="~/Scripts/knockout-2.1.0.debug.js"></script>
-<script src="~/Scripts/knockout.mapping-latest.debug.js"></script>
+
 @section featured {
 
 
     <div class="container-fluid">
         <div class="row">
-            <div class="box col-md-3">
-                <table class="table">
-                    <tr>
-                        <td></td>
-                        <td>
-                            <label data-bind="text: $root.Current"></label>
-                        </td>
-                        <td>
-                            <label data-bind="text: $root.Block"></label>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="col-md-2">
-                            <a href="#" id="PrevBtn" data-bind="click: $root.Prev" class="btn btn-block btn-lg btn-success"><span class="glyphicon glyphicon-chevron-left"></span>Previous</a>
-                        </td>                
-                        <td class="col-md-2">
-                            <a href="#" id="NextBtn" data-bind="click: $root.Next" class="btn btn-block btn-lg btn-danger">Next <span class="glyphicon glyphicon-chevron-right"></span></a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="col-md-6"><a data-bind="click: $root.alert" href="#" class="btn btn-block btn-lg btn-primary"><span class="glyphicon glyphicon-stop"></span>Stop</a></td>
-                    </tr>
-                </table>
+            <div class="box col-md-4">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">
+                                <span class="glyphicon glyphicon-comment"></span>Chat
+                    <div class="btn-group pull-right">
+                        <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
+                            <span class="glyphicon glyphicon-chevron-down"></span>
+                        </button>
+                        <ul class="dropdown-menu slidedown">
+                            <li><a href="http://www.jquery2dotnet.com"><span class="glyphicon glyphicon-refresh"></span>Refresh</a></li>
+                            <li><a href="http://www.jquery2dotnet.com"><span class="glyphicon glyphicon-ok-sign"></span>Available</a></li>
+                            <li><a href="http://www.jquery2dotnet.com"><span class="glyphicon glyphicon-remove"></span>Busy</a></li>
+                            <li><a href="http://www.jquery2dotnet.com"><span class="glyphicon glyphicon-time"></span>
+                                Away</a></li>
+                            <li class="divider"></li>
+                            <li><a href="http://www.jquery2dotnet.com"><span class="glyphicon glyphicon-off"></span>
+                                Sign Out</a></li>
+                        </ul>
+                    </div>
+                            </div>
+                            <div class="panel-body">
+                                <ul id="chat" class="chat">                                                                 
+                                </ul>
+                            </div>
+                            <div class="panel-footer">
+                                <div class="input-group">
+                                    <input id="btn-input" type="text" data-bind="value: $root.msgTxt" class="form-control input-sm" placeholder="Type your message here..." />
+                                    <span class="input-group-btn">
+                                        <button data-bind="click: $root.sendMsg" class="btn btn-warning btn-sm" id="btn-chat">
+                                            Send</button>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <table class="table">
+                        <tr>
+                            <td></td>
+                            <td>
+                                <label data-bind="text: $root.Current"></label>
+                            </td>
+                            <td>
+                                <label data-bind="text: $root.Block"></label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-2">
+                                <a href="#" id="PrevBtn" data-bind="click: $root.Prev" class="btn btn-block btn-lg btn-success"><span class="glyphicon glyphicon-chevron-left"></span>Previous</a>
+                            </td>
+                            <td class="col-md-2">
+                                <a href="#" id="NextBtn" data-bind="click: $root.Next" class="btn btn-block btn-lg btn-danger">Next <span class="glyphicon glyphicon-chevron-right"></span></a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-6"><a data-bind="click: $root.Stop" href="#" class="btn btn-block btn-lg btn-primary"><span class="glyphicon glyphicon-stop"></span>Stop</a></td>
+                        </tr>
+                    </table>
+
+                </div>
+
             </div>
-            <div class="col-md-9">
+
+            <div class="col-md-8">
                 <div id="montior" class="jumbotron" data-bind="html: $root.text">
                 </div>
             </div>
         </div>
         <div class="row">
         </div>
-
     </div>
 
 
 }
+@*   <script src="~/Scripts/jquery-2.1.3.min.js"></script>*@
 
 <script type="text/javascript">
+
+    
+
     var viewModel = function () {
         self = this;
         self.text = ko.observable();
@@ -62,7 +103,105 @@
             });
         };
         self.refresh();
+        self.init = function(){
+            // Declare a proxy to reference the hub. 
+            console.dirxml($.connection);
+            var chat = $.connection.chatHub;
+            // Create a function that the hub can call to broadcast messages.
+            chat.client.processChat = function(imgType, name, message)
+            {
+                console.log("char proccesing method");
+                if(imgType == 0)
+                    $('#chat').append('<li class="left clearfix"><span class="chat-img pull-left"> <img src="http://placehold.it/50/55C1E7/fff&text=User" alt="User Avatar" class="img-circle" /></span><div class="chat-body clearfix"><div class="header"><strong class="primary-font">'+ name +'</strong></div><p>'+ message + '</p></div></li>');
+                else
+                    $('#chat').append('<li class="left clearfix"><span class="chat-img pull-right"> <img src="http://placehold.it/50/FA6F57/fff&text=ME" alt="User Avatar" class="img-circle" /></span><div class="chat-body clearfix"><div class="header"><strong class="primary-font">'+ name +'</strong></div><p>'+ message + '</p></div></li>');
+                //var div = $("#chat");
+                //div.scrollTop(div.outerHeight());
+                //console.dir(div);
+                //console.dir(div.scrollTop);
+                //div.slideDown(300,function(){});
+            }
+            chat.client.broadcastMessage = function (name, message) {
+                if(message === "refresh")
+                {
+
+                    //setInterval(set
+                    //  alert(message);
+                    var oldHtml = self.text();
+
+                    if(oldHtml == self.text())
+                        console.log("try 1: false")
+                    else console.log("try 1: true")
+                    setTimeout(function(){self.refresh()},1200);
+                    //if(oldHtml == self.text)
+                    //    setTimeout(function(){self.refresh()},200);
+
+                    //if(oldHtml == self.text())
+                    //    console.log("try 2: false")
+                    //else console.log("try 2: true")
+                    //if(oldHtml == self.text)
+                    //    setTimeout(function(){self.refresh()},200);
+
+                    //if(oldHtml == self.text())
+                    //    console.log("try 3: false")
+                    //else console.log("try 3: true")
+                    //if(oldHtml == self.text)
+                    //    setTimeout(function(){self.refresh()},200);
+
+                    //if(oldHtml == self.text())
+                    //    console.log("try 4: false")
+                    //else console.log("try 4: true")
+                    //if(oldHtml == self.text)
+                    //    setTimeout(function(){self.refresh()},200);
+                    //if(oldHtml == self.text())
+                    //    console.log("try 5: false")
+                    //else console.log("try 5: true")
+               
+                    //if(oldHtml == self.text)
+                    //    setTimeout(function(){self.refresh()},200);
+
+                    //if(oldHtml === self.text())
+                    //    console.log("try 6: false")
+                    //else console.log("try 6: true")
+               
+                    //if(oldHtml == self.text)
+                    //    setTimeout(function(){self.refresh()},200);
+
+                    //if(oldHtml == self.text())
+                    //    console.log("try 7: false")
+                    //else console.log("try 7: true")
+               
+                    //if(oldHtml == self.text)
+                    //    setTimeout(function(){self.refresh()},200);
+                }
+                
+                if(message === "joined")
+                {
+                    alert(name + " " + message);
+                }
+               
+               
+               
+                // self.refresh();
+            };
+
+            // Start the connection.
+            $.connection.hub.start().done(function () {
+                // self.refresh();
+               // chat.server.send("@User.Identity.Name","joined");
+            });
+
+        };
         
+        self.sendMsg = function(){
+            var chat = $.connection.chatHub;
+            $.connection.hub.start().done(function () {
+
+                chat.server.sendMsg("@User.Identity.Name",self.msgTxt());
+
+            });
+        };
+        self.msgTxt = ko.observable();
         self.BlockNext = ko.computed(function () {
             if (parseInt(self.Current()) + 1 >= parseInt(self.Limit())) {
                 $('#NextBtn').attr("disabled", "disabled");
@@ -89,10 +228,33 @@
                 return true;
             }
         });
+
+        self.Stop = function () {
+            $.getJSON("@Url.HttpRouteUrl("DefaultApi", new { controller = "PresentationApi", action = "DeleteBroadcast" })" + "?id=" + @ViewBag.id, function (allData) {
+
+                window.location.href = "@Url.HttpRouteUrl("Default", new { controller = "Home", action = "Index" })";
+            });
+        };
         self.Next = function () {
+        
+
             $.getJSON("@Url.HttpRouteUrl("DefaultApi", new { controller = "PresentationApi", action = "IncBRSlide" })" + "?id=" + @ViewBag.id, function (allData) {
 
                 self.refresh();
+            });
+
+            var chat = $.connection.chatHub;
+            // Create a function that the hub can call to broadcast messages.
+            //chat.client.broadcastMessage = function (name, message) {
+            //    // self.refresh();
+            //};
+
+            // Start the connection.
+            $.connection.hub.start().done(function () {
+
+                chat.server.send("owner","refresh");
+                // Clear text box and reset focus for next comment. 
+
             });
         };
 
@@ -100,13 +262,66 @@
             $.getJSON("@Url.HttpRouteUrl("DefaultApi", new { controller = "PresentationApi", action = "DecBRSlide" })" + "?id="+ @ViewBag.id, function (allData) {
                 self.refresh();
             });
+
+            
+            var chat = $.connection.chatHub;
+            // Create a function that the hub can call to broadcast messages.
+            //chat.client.broadcastMessage = function (name, message) {
+            //    // self.refresh();
+            //};
+
+            // Start the connection.
+            $.connection.hub.start().done(function () {
+
+                chat.server.send("owner","refresh");
+                // Clear text box and reset focus for next comment. 
+
+            });
         };
+      
 
-
+        self.init();
 
         self.alert = function () {
             alert(@ViewBag.SlideCount);
         };
+       
     };
-    ko.applyBindings(new viewModel());
+    window.onload = function(){
+        ko.applyBindings(new viewModel());
+    };
+
+    //$(document).ready(function(){
+
+       
+    //    $(function () {
+    //        // Declare a proxy to reference the hub. 
+    //        console.log("asd");
+    //        console.dirxml($.connection);
+    //        var chat = $.connection.chatHub;
+    //        // Create a function that the hub can call to broadcast messages.
+    //        chat.client.broadcastMessage = function (name, message) {
+    //            console.log(message);
+    //        };
+
+    //        // Start the connection.
+    //        $.connection.hub.start().done(function () {
+    //            $('#sendmessage').click(function () {
+    //                // Call the Send method on the hub. 
+    //                chat.server.send("Jevgenijs","kuku epta");
+    //                // Clear text box and reset focus for next comment. 
+    //                //    $('#message').val('').focus();
+    //            });
+    //        });
+    //    });
+    //});
 </script>
+
+@section Scripts {
+    <script src="~/Scripts/knockout-2.1.0.debug.js"></script>
+    <script src="~/Scripts/knockout.mapping-latest.debug.js"></script>
+
+    <script src="~/Scripts/jquery.signalR-2.2.0.min.js"></script>
+    <script src="~/signalr/hubs"></script>
+}
+

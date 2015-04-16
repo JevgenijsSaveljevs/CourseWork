@@ -31,6 +31,12 @@ namespace MvcApplication6.Controllers
             return View();
         }
 
+        //[Authorize]
+        public ActionResult signalRtest()
+        {
+            return View();
+        }
+
 
         public JsonResult SomeAction()
         {
@@ -87,13 +93,20 @@ namespace MvcApplication6.Controllers
                 //Use the following properties to get file's name, size and MIMEType
                 int fileSize = file.ContentLength;
                 string fileName = file.FileName;
+               // if(fileName.EndsWith(".ppt")) fileName = fileName.Remove(fileName.Length -4);
+             //   if(fileName.EndsWith(".pptx")) fileName =fileName.Remove(fileName.Length -5);
+
+                fileName = Path.GetFileNameWithoutExtension(fileName);
+
+                if (fileName.Contains(@"//")) fileName = fileName.Substring(fileName.LastIndexOf(@"//"));
+                if (fileName.Contains(@"\\")) fileName = fileName.Substring(fileName.LastIndexOf(@"\\"));
                 string mimeType = file.ContentType;
                 System.IO.Stream fileContent = file.InputStream;
                 ////To save file, use SaveAs method
                 // file.SaveAs(Server.MapPath("~/") + fileName); //File will be saved in application root
                 try
                 {
-                    thread = new Thread(o => generatePPT(fileContent));
+                    thread = new Thread(o => generatePPT(fileContent,fileName));
 
                     thread.Start();
                     var z = thread.ExecutionContext;
@@ -141,7 +154,7 @@ namespace MvcApplication6.Controllers
         Thread thread;
         [HandleError]
         [HandleError()]
-        private  void generatePPT(Stream fileStream)
+        private  void generatePPT(Stream fileStream,string fileNAme)
         {
             // The path to the documents directory.
           //  string dataDir = Path.GetFullPath("ss.test.pptx");
@@ -154,7 +167,7 @@ namespace MvcApplication6.Controllers
                     HtmlOptions htmlOpt = new HtmlOptions();
                     htmlOpt.HtmlFormatter = HtmlFormatter.CreateDocumentFormatter("custom.css", false);
 
-                    var path = @"C:\\CourseWork\\doomo.html";
+                    var path = @"C:\\CourseWork\\" + fileNAme + ".html";
                     //Saving the presentation to HTML
                     pres.Save(path, Aspose.Slides.Export.SaveFormat.Html, htmlOpt); 
 
@@ -201,7 +214,8 @@ namespace MvcApplication6.Controllers
                         if (counter == 0)
                             bckgrnd = item.ChildNodes["defs"];
                         else
-                            item.ChildNodes.Insert(1, bckgrnd);
+                            if(bckgrnd != null)
+                                item.ChildNodes.Insert(1, bckgrnd);
                         //item.ChildNodes.Insert(0,
 
 

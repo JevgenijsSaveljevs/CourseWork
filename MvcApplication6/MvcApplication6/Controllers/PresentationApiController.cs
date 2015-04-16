@@ -23,7 +23,22 @@ namespace MvcApplication6.Controllers
         {
             using (var ent = new Entities<Presentation>())
             {
-                var result = ent.GetAllPrezs().Select(x => Mapper.Map<Presentation, PresentationModel>(x)).ToList();
+                var result = ent.GetAllPrezs().Where(x => x.Owner == WebMatrix.WebData.WebSecurity.CurrentUserId).Select(x => Mapper.Map<Presentation, PresentationModel>(x)).ToList();
+                return result;
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id">Presentation Id</param>
+        /// <returns></returns>
+        [HttpGet]
+        public int GetBroadCastId(int id)
+        {
+            using (var ent = new Entities<Broadcast>())
+            {
+                var result = ent.GetAll().Where(x => x.PptId == id).FirstOrDefault().Id;
                 return result;
             }
         }
@@ -187,10 +202,52 @@ namespace MvcApplication6.Controllers
             }
             catch (Exception ex) { return "err = " + ex.Message; }
 
-
-
         }
 
+        [HttpGet]
+        public string DeleteBroadcast(int id)
+        {
+            Broadcast toDel;
+            using (var ent = new Entities<Broadcast>())
+            {
+                toDel = ent.GetAll().Where(x => x.PptId == id).FirstOrDefault();
+                ent.Delete(toDel);
+            }
+            try
+            {
+                using (var ent = new Entities<Presentation>())
+                {
+                    ent.Dectivate(toDel.PptId); 
+                    return "done";
+                }
+            }
+            catch (Exception ex) { return "err = " + ex.Message; }
+        }
+
+
+        [HttpGet]
+        public string DeletePpt(int id)
+        {
+            Broadcast toDel;
+            using (var ent = new Entities<Broadcast>())
+            {
+                toDel = ent.GetAll().Where(x => x.PptId == id).FirstOrDefault();
+                if(toDel != null)
+                    ent.Delete(toDel);
+            }
+            try
+            {
+                using (var ent = new Entities<Presentation>())
+                {
+                    ent.DeletePpt(id);
+                    return "done";
+                }
+            }
+            catch (Exception ex) { return "err = " + ex.Message; }
+        }
+
+
+      
         private void sendMail(int UserId, string sender, string Body)
         {
             using (var ent = new Entities<UserDB>())

@@ -121,3 +121,14 @@ C:\Users\Eugene\Documents\GitHub\CourseWork\MvcApplication6\MvcApplication6\bin\
 C:\Users\Eugene\Documents\GitHub\CourseWork\MvcApplication6\MvcApplication6\bin\AutoMapper.pdb
 C:\Users\Eugene\Documents\GitHub\CourseWork\MvcApplication6\MvcApplication6\bin\AutoMapper.xml
 C:\Users\Eugene\Documents\GitHub\CourseWork\MvcApplication6\MvcApplication6\bin\AutoMapper.Net4.pdb
+C:\Users\Eugene\Documents\GitHub\CourseWork\MvcApplication6\MvcApplication6\bin\Microsoft.AspNet.SignalR.Core.dll
+C:\Users\Eugene\Documents\GitHub\CourseWork\MvcApplication6\MvcApplication6\bin\Microsoft.AspNet.SignalR.SystemWeb.dll
+C:\Users\Eugene\Documents\GitHub\CourseWork\MvcApplication6\MvcApplication6\bin\Microsoft.Owin.dll
+C:\Users\Eugene\Documents\GitHub\CourseWork\MvcApplication6\MvcApplication6\bin\Microsoft.Owin.Host.SystemWeb.dll
+C:\Users\Eugene\Documents\GitHub\CourseWork\MvcApplication6\MvcApplication6\bin\Microsoft.Owin.Security.dll
+C:\Users\Eugene\Documents\GitHub\CourseWork\MvcApplication6\MvcApplication6\bin\Owin.dll
+C:\Users\Eugene\Documents\GitHub\CourseWork\MvcApplication6\MvcApplication6\bin\Microsoft.AspNet.SignalR.Core.xml
+C:\Users\Eugene\Documents\GitHub\CourseWork\MvcApplication6\MvcApplication6\bin\Microsoft.AspNet.SignalR.SystemWeb.xml
+C:\Users\Eugene\Documents\GitHub\CourseWork\MvcApplication6\MvcApplication6\bin\Microsoft.Owin.xml
+C:\Users\Eugene\Documents\GitHub\CourseWork\MvcApplication6\MvcApplication6\bin\Microsoft.Owin.Host.SystemWeb.xml
+C:\Users\Eugene\Documents\GitHub\CourseWork\MvcApplication6\MvcApplication6\bin\Microsoft.Owin.Security.xml

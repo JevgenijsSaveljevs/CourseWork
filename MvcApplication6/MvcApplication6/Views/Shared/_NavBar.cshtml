@@ -16,15 +16,12 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">Cloud Auction</a>
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
                 <li class="@ActiveItem("Index", "Home", null)">@Html.ActionLink("Home", "Index", "Home")</li>
-                <li class="@ActiveItem("About", "Home", null)">@Html.ActionLink("About", "About", "Home")</li>
-                <li class="@ActiveItem("Contact", "Home", null)">@Html.ActionLink("Contact", "Contact", "Home")</li>
-                <li class="@ActiveItem("Index", "Presentation", null)">@Html.ActionLink("Manage Presentations", "Index", "Presentation")</li>
-                <li class="@ActiveItem("Index", "Subscription", null)">@Html.ActionLink("Manage Subscribtions", "Index", "Subscription")</li>
+                 @if (Request.IsAuthenticated) {<li class="@ActiveItem("Index", "Presentation", null)">@Html.ActionLink("Manage Presentations", "Index", "Presentation")</li>}
+                @if (Request.IsAuthenticated) {<li class="@ActiveItem("Index", "Subscription", null)">@Html.ActionLink("Manage Subscribtions", "Index", "Subscription")</li>}
                 <li>@Html.Partial("_LoginPartial")</li>
             </ul>
         </div>

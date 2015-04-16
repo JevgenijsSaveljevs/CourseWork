@@ -91,6 +91,27 @@ namespace Bussines
             db.Session.Transaction.Commit();
         }
 
+
+        public void DeletePpt(long id)
+        {
+            var db = new Entities<Presentation>();
+            var activate = db.GetAll().Where(x => x.Id == id).FirstOrDefault();
+
+            foreach (var item in activate.Pages)
+            {
+                using (var ent = new Entities<Slide>())
+                {
+                    ent.Delete(item);
+                }
+            }
+            db.Session.Flush();
+            activate.Pages = null;
+            using(var ent = new Entities<Presentation>())
+                db.Delete(activate);
+
+            db.Session.Transaction.Commit();
+        }
+
         public void CreateSub(int userId, int subscribeTo)
         {
             var db = new Entities<Subscription>();
