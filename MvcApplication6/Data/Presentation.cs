@@ -9,6 +9,7 @@ namespace Data
     public class Presentation
     {
         public virtual int Id { get; set; }
+        public virtual string Name {get; set;}
         public virtual int Owner { get; set; }
         public virtual DateTime Created { get; set; }
         public virtual bool isActive { get; set; }

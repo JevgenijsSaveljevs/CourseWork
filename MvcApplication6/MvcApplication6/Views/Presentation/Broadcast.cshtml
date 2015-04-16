@@ -56,14 +56,14 @@
                         </tr>
                         <tr>
                             <td class="col-md-2">
-                                <a href="#" id="PrevBtn" data-bind="click: $root.Prev" class="btn btn-block btn-lg btn-success"><span class="glyphicon glyphicon-chevron-left"></span>Previous</a>
+                                <a href="#" id="PrevBtn" data-bind="click: $root.Prev, visible: $root.Owner" class="btn btn-block btn-lg btn-success"><span class="glyphicon glyphicon-chevron-left"></span>Previous</a>
                             </td>
                             <td class="col-md-2">
-                                <a href="#" id="NextBtn" data-bind="click: $root.Next" class="btn btn-block btn-lg btn-danger">Next <span class="glyphicon glyphicon-chevron-right"></span></a>
+                                <a href="#" id="NextBtn" data-bind="click: $root.Next, visible: $root.Owner" class="btn btn-block btn-lg btn-danger">Next <span class="glyphicon glyphicon-chevron-right"></span></a>
                             </td>
                         </tr>
                         <tr>
-                            <td class="col-md-6"><a data-bind="click: $root.Stop" href="#" class="btn btn-block btn-lg btn-primary"><span class="glyphicon glyphicon-stop"></span>Stop</a></td>
+                            <td class="col-md-6"><a data-bind="click: $root.Stop, visible: $root.Owner" href="#" class="btn btn-block btn-lg btn-primary"><span class="glyphicon glyphicon-stop"></span>Stop</a></td>
                         </tr>
                     </table>
 
@@ -93,14 +93,38 @@
         self.text = ko.observable();
         self.Limit = ko.observable(@ViewBag.SlideCount);
         self.Current = ko.observable(0);
+        self.Usr = ko.observable("@User.Identity.Name");
+        self.Owner = ko.observable(false);
         self.refresh = function () {
             $.getJSON("@Url.HttpRouteUrl("DefaultApi", new { controller = "PresentationApi", action = "GetBRSlide" })" + "?id=" + @ViewBag.id, function (allData) {
+                var href = "@Url.HttpRouteUrl("Default", new { controller = "Home", action = "Index" })";
+                if(allData == "err = Object reference not set to an instance of an object.") self.text('<h1>Sorry, but there is not Active Broacast for this link, possible reason is that Presntaion owner already finished his transaltion. <a href="' + href+'">Go Home</a></h1>');
+                else
                 self.text(allData);
             });
 
             $.getJSON("@Url.HttpRouteUrl("DefaultApi", new { controller = "PresentationApi", action = "CurBRSlide" })" + "?id=" + @ViewBag.id, function (allData) {
-                self.Current(allData)
+                if(allData == "err = Object reference not set to an instance of an object.") self.Current("");
+                else
+                {
+                    self.Current(allData);
+                    $.getJSON("@Url.HttpRouteUrl("DefaultApi", new { controller = "PresentationApi", action = "GetOwner" })" + "?id=" + @ViewBag.id, function (allData) {
+                        if(allData == "err = Object reference not set to an instance of an object.") self.Owner("");
+                        else
+                        {
+                            //   alert("@User.Identity.Name" + allData);
+                    if("@User.Identity.Name".toLowerCase() == allData.toLowerCase())
+                        self.Owner(true);
+                    else
+                        self.Owner(false);
+
+                }
+                   
+                     });
+                }
             });
+
+           
         };
         self.refresh();
         self.init = function(){
@@ -198,6 +222,7 @@
             $.connection.hub.start().done(function () {
 
                 chat.server.sendMsg("@User.Identity.Name",self.msgTxt());
+                self.msgTxt("");
 
             });
         };

@@ -46,6 +46,7 @@ namespace Bussines.Mappings
                 Map(x => x.Created);
                 Map(x => x.Owner).Not.Nullable();
                 Map(x => x.isActive);
+                Map(x => x.Name);
                 HasMany(x => x.Pages).KeyColumn("PptId").Not.LazyLoad().Cascade.All();
                 //References(x => x.Pages).LazyLoad(Laziness.False).Cascade.DeleteOrphans();
 

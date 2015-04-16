@@ -12,6 +12,7 @@
             <table class="table">
                 <thead>
                     <tr>
+                        <th>Name</th>
                         <th>Owner</th>
                         <th>Created</th>
                         <th>Preview</th>
@@ -19,6 +20,7 @@
                 </thead>
                 <tbody data-bind="foreach: Present">
                     <tr>
+                        <td data-bind="text: $data.Name"></td>
                         <td data-bind="text: $data.Created"></td>
                         <td data-bind="text: $data.Owner"></td>
                         <td data-bind="html: $data.demo">a</td>

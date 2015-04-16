@@ -4,12 +4,17 @@
     ViewBag.Title = "Log in";
 }
 
-<hgroup class="title">
-    <h1>@ViewBag.Title.</h1>
-</hgroup>
-
-<section id="loginForm">
+  <div class="jumbotron">
+        <div class="container">
+            <h1>@ViewBag.Title.</h1>
+            <h2>@ViewBag.Message</h2>
+        </div>
+    </div>
+ <div class="container-fluid">
+<section class="container" id="loginForm">
 <h2>Use a local account to log in.</h2>
+      <div class="container-page">
+                <div class="col-md-6">
 @using (Html.BeginForm(new { ReturnUrl = ViewBag.ReturnUrl })) {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
@@ -19,12 +24,12 @@
         <ol>
             <li>
                 @Html.LabelFor(m => m.UserName)
-                @Html.TextBoxFor(m => m.UserName)
+                @Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
                 @Html.ValidationMessageFor(m => m.UserName)
             </li>
             <li>
                 @Html.LabelFor(m => m.Password)
-                @Html.PasswordFor(m => m.Password)
+                @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
                 @Html.ValidationMessageFor(m => m.Password)
             </li>
             <li>
@@ -38,12 +43,10 @@
         @Html.ActionLink("Register", "Register") if you don't have an account.
     </p>
 }
+                    </div>
+          </div>
 </section>
-
-<section class="social" id="socialLoginForm">
-    <h2>Use another service to log in.</h2>
-    @Html.Action("ExternalLoginsList", new { ReturnUrl = ViewBag.ReturnUrl })
-</section>
+      </div>
 
 @section Scripts {
  @*   @Scripts.Render("~/bundles/jqueryval")*@

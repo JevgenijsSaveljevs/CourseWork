@@ -187,6 +187,7 @@ namespace MvcApplication6.Controllers
                     Data.Presentation newPrez = new Data.Presentation();
                     newPrez.Created = DateTime.UtcNow;
                     var usr = User.Identity.Name;
+                    newPrez.Name = fileNAme;
                     newPrez.Owner = (int)WebSecurity.GetUserId(User.Identity.Name);
                     //UserProfile usr = int mu1 = 
                     //newPrez.Pages = new Data.Slide();

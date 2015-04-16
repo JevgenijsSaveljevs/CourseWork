@@ -11,6 +11,7 @@ using MvcApplication6.Models;
 using MvcApplication6.Filters;
 using System.Net.Mail;
 using System.Web.Security;
+using System.Web;
 
 
 namespace MvcApplication6.Controllers
@@ -41,6 +42,31 @@ namespace MvcApplication6.Controllers
                 var result = ent.GetAll().Where(x => x.PptId == id).FirstOrDefault().Id;
                 return result;
             }
+        }
+
+        [HttpGet]
+        public string GetOwner(int id)
+        {
+            int brId = 0;
+            int ownerId =0;
+            int pptId = 0;
+            using (var ent = new Entities<Broadcast>())
+            {
+                brId = ent.GetAll().Where(x => x.PptId == id).FirstOrDefault().PptId;
+            }
+            if (brId != 0)
+            {
+                using (var ent = new Entities<Presentation>())
+                {
+                    var ow = ent.GetAll().Where(x => x.Id == brId).FirstOrDefault();
+                    ownerId = ow.Owner;
+                }
+                using (var ent = new Entities<Presentation>())
+                {
+                    return ent.GetUsers().Where(x => x.Id == ownerId).FirstOrDefault().UserName;
+                }
+            }
+            else return "";
         }
 
         [HttpGet]
@@ -183,30 +209,35 @@ namespace MvcApplication6.Controllers
         [HttpPost]
         public string CreateBroadcast(Message msg)
         {
-            using (var ent = new Entities<UserDB>())
-            {
-                var usrs = ent.GetSubForUser(WebMatrix.WebData.WebSecurity.CurrentUserId);
-                foreach (var item in usrs)
-                {
-                    sendMail(item.SubscribedTo, User.Identity.Name, msg.txt);
-                }
-              //  return "done";
-            }
+            int brId = 0;
             try
             {
                 using (var ent = new Entities<Broadcast>())
                 {
                     ent.CreateBroadCast(msg.PrezId);
-                    return "done";
                 }
             }
             catch (Exception ex) { return "err = " + ex.Message; }
+
+            using (var ent = new Entities<UserDB>())
+            {
+                var usrs = ent.GetSubForUser(WebMatrix.WebData.WebSecurity.CurrentUserId);
+                foreach (var item in usrs)
+                {
+                    sendMail(item.SubscribedTo, User.Identity.Name, msg);
+                }
+              //  return "done";
+            }
+
+            return "done";
+           
 
         }
 
         [HttpGet]
         public string DeleteBroadcast(int id)
         {
+
             Broadcast toDel;
             using (var ent = new Entities<Broadcast>())
             {
@@ -248,8 +279,11 @@ namespace MvcApplication6.Controllers
 
 
       
-        private void sendMail(int UserId, string sender, string Body)
+        private void sendMail(int UserId, string sender, Message msg)
         {
+            //Request.RequestUri.PathAndQuery.
+            
+         
             using (var ent = new Entities<UserDB>())
             {
                 var usr = ent.GetUsers().Where(x => x.Id == UserId).FirstOrDefault();
@@ -271,10 +305,13 @@ namespace MvcApplication6.Controllers
                         UseDefaultCredentials = false,
                         Credentials = new NetworkCredential(fromAddress.Address, fromPassword)
                     };
+                    var r1 = Request;
+                    var r2 = HttpContext.Current;
                     using (var message = new MailMessage(fromAddress, toAddress)
                     {
+                        
                         Subject = "User " + sender + " invited you to broadcast",
-                        Body = Body
+                        Body = String.Join(Environment.NewLine, HttpUtility.UrlDecode(msg.txt), "Your Link to broadcast: " + Request.Headers.Host +@"/"+ @"Presentation/Broadcast?id="+msg.PrezId)
                     })
                     {
                         smtp.Send(message);

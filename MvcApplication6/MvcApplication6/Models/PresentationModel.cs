@@ -8,6 +8,7 @@ namespace MvcApplication6.Models
     public class PresentationModel
     {
         public int Id { get; set; }
+        public string Name { get; set; }
         public int Owner { get; set; }
         public DateTime Created { get; set; }
         public bool isActive
